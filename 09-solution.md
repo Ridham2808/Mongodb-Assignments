@@ -101,7 +101,7 @@ db.students.insertOne({
 - Added in courses. 
 
 ```js
-db.students.insertOne({ 
+db.courses.insertOne({ 
     "courseCode": "CS104", 
     "courseName": "Figma", 
     "credits": 3, 
