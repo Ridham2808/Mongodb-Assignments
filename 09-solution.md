@@ -159,5 +159,5 @@ db.students.deleteOne({ "name": "Divy" });
 - Delete in Courses. 
 
 ```js
-db.students.deleteMany({ "department": "Electrical Engineering" });
+db.courses.deleteOne({ "courseCode": "CS102" });
 ```
