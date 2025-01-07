@@ -282,3 +282,154 @@
   grades: { $elemMatch: { grade: "A" } }
   });
   ```
+
+#### **Task 28: Use `$size` operator to query students with exactly 2 courses enrolled**  
+- Query students who have enrolled in exactly two courses.
+
+  ```js
+  db.students.find({
+  enrolledCourses: { $size: 2 }
+  });
+  ```
+
+#### **Task 29: Perform a text search for a course title**  
+- Use text indexing to search for the course `Digital Electronics` in the `courses` collection.
+
+  ```js
+  db.courses.find({ name: /Digital Electronics/ });
+  ```
+
+#### **Task 30: Create a compound index on department and year**  
+- Create a compound index on the fields `department` and `year` for better querying performance.
+
+  ```js
+  db.students.createIndex({ department: 1, year: 1 });
+  ```
+
+#### **Task 31: Use `$sort` to order students by their roll number**  
+- Sort the students in ascending order of their roll number.
+
+  ```js
+  db.students.find().sort({ rollNumber: 1 });
+  ```
+
+#### **Task 32: Create a unique index on the roll number**  
+- Create a unique index to ensure that the roll numbers in the `students` collection are unique.
+
+  ```js
+  db.students.createIndex({ rollNumber: 1 }, { unique: true });
+  ```
+
+#### **Task 33: Update the course name in the `courses` collection**  
+- Update the name of the course `CS101` to `Intro to Programming`.
+
+  ```js
+  db.courses.updateOne(
+  { courseCode: "CS101" },
+  { $set: { courseName: "Intro to Programming" } }
+  );
+  ```
+
+#### **Task 34: Create a backup of the `CodingGitaStudents` database**  
+- Use `mongodump` to back up the entire `CodingGitaStudents` database.
+
+  ```js
+  mongodump --db=CodingGitaStudents --out=/backup/location
+  ```
+
+#### **Task 35: Restore the `CodingGitaStudents` database from the backup**  
+- Use `mongorestore` to restore the database after a backup.
+
+  ```js
+  mongodump --db=CodingGitaStudents --out=/backup/location
+  ```
+
+#### **Task 36: Use `$project` to reshape data in aggregation**  
+- Project only the `name` and `department` of students using an aggregation query.
+
+  ```js
+  db.students.aggregate([
+  { $project: { name: 1, department: 1, _id: 0 } }
+  ]);
+  ```
+
+#### **Task 37: Use `$unwind` to deconstruct the courses array**  
+- Use `$unwind` to split the `coursesEnrolled` array into individual documents.
+
+  ```js
+  db.students.aggregate([
+  { $unwind: "$coursesEnrolled" }
+  ]);
+  ```
+
+#### **Task 38: Use `$limit` to retrieve only the first 3 students**  
+- Use `$limit` to limit the result to the first 3 students in the `students` collection.
+
+  ```js
+  db.students.find().limit(3);
+  ```
+
+#### **Task 39: Use `$skip` to skip the first 2 students and get the rest**  
+- Use `$skip` to fetch all students except the first two.
+
+  ```js
+  db.students.find().skip(2);
+  ```
+
+#### **Task 40: Use `$lookup` to join student data with courses**  
+- Use `$lookup` to fetch the course information for students.
+
+  ```js
+  db.students.aggregate([
+  {
+    $lookup: {
+      from: "courses",
+      localField: "coursesEnrolled",
+      foreignField: "courseCode",
+      as: "courseDetails"
+    }
+  }
+  ]);
+  ```
+
+#### **Task 41: Create a new collection for storing `studentFeedback`**  
+- Create a collection `studentFeedback` with fields: `studentRollNumber`, `feedbackText`, `date`.
+
+  ```js
+  db.createCollection("studentFeedback");
+  db.studentFeedback.insertMany([
+  { studentRollNumber: "CS1001", feedbackText: "Great experience!", date: new Date() },
+  { studentRollNumber: "CS1002", feedbackText: "Needs improvement.", date: new Date() }
+  ]);
+  ```
+
+#### **Task 42: Query the `studentFeedback` collection to find feedback from a specific student**  
+- Use `find()` to retrieve feedback from `Jenil`.
+
+  ```js
+  db.studentFeedback.find({ studentRollNumber: "CS1001" });
+  ```
+
+#### **Task 43: Use `$set` to update multiple fields at once**  
+- Use the `$set` operator to update the `department` and `coursesEnrolled` fields for `Arjun`.
+
+  ```js
+  db.students.updateOne(
+  { name: "Arjun" },
+  { $set: { department: "ECE", coursesEnrolled: ["CS202", "MATH303"] } }
+  );
+  ```
+
+#### **Task 44: Create a custom index on the `coursesEnrolled` field**  
+- Create an index on the `coursesEnrolled` array for faster querying.
+
+  ```js
+  db.students.createIndex({ coursesEnrolled: 1 });
+  ```
+
+#### **Task 45: Perform a query on nested documents in `students` collection**  
+- Query for students who have grades `A` in their courses.
+
+  ```js
+  db.students.find({ grades: { $elemMatch: { grade: "A" } } });
+  ```
